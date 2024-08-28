@@ -1,0 +1,9 @@
+--class-path .
+--main TestAll
+
+-lib utest
+-lib libmysqlclient
+-lib logging
+-lib promises
+
+-D no-deprecation-warnings
