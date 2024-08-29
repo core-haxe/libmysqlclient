@@ -1,19 +1,19 @@
 package cases.util;
 
-import mysql.MySql;
-import mysql.MySqlConnection;
+import mysql.MySqlClient;
+import mysql.MySqlClientConnection;
 import promises.Promise;
 
 class DBCreator {
-    public static var connection:MySqlConnection;
+    public static var connection:MySqlClientConnection;
 
-    public static function createConnection(db:String = null):MySqlConnection {
+    public static function createConnection(db:String = null):MySqlClientConnection {
         var host = Sys.getEnv("MYSQL_HOST");
         var user = Sys.getEnv("MYSQL_USER");
         var pass = Sys.getEnv("MYSQL_PASS");
         var port = 3306;
 
-        return MySql.open(host, user, pass, db, port);
+        return MySqlClient.open(host, user, pass, db, port);
     }
 
     public static function create(createDummyData:Bool = true):Promise<Bool> {
@@ -50,12 +50,10 @@ class DBCreator {
                     Organization_organizationId int
                 );");
     
-                /*
                 connection.query("TRUNCATE TABLE Person;");
                 connection.query("TRUNCATE TABLE Icon;");
                 connection.query("TRUNCATE TABLE Organization;");
                 connection.query("TRUNCATE TABLE Person_Organization;");
-                */
 
                 addDummyData().then(_ -> {
                     resolve(true);

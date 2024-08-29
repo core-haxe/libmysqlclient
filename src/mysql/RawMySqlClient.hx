@@ -7,7 +7,7 @@ import cpp.RawPointer;
 
 @:include("include/mysql.h")
 @:unreflective
-extern class RawMySql {
+extern class RawMySqlClient {
     @:native("::mysql_init")                public static function init(mysql:RawPointer<MySqlHandle>):RawPointer<MySqlHandle>;
     @:native("::mysql_library_end")         public static function library_end():Void;
 

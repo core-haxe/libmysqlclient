@@ -1,6 +1,6 @@
 package mysql;
 
-class MySqlError {
+class MySqlClientError {
     public var errorMessage:String;
     public var errorNumber:Int;
 

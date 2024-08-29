@@ -2,9 +2,9 @@ package mysql;
 
 import cpp.RawPointer;
 import cpp.ConstCharStar;
-import mysql.RawMySql.MySqlRes;
-import mysql.RawMySql.MySqlField;
-import mysql.RawMySql.MySqlFieldType;
+import mysql.RawMySqlClient.MySqlRes;
+import mysql.RawMySqlClient.MySqlField;
+import mysql.RawMySqlClient.MySqlFieldType;
 import cpp.Finalizable;
 import cpp.Pointer;
 import haxe.io.BytesData;
@@ -12,7 +12,7 @@ import haxe.io.Bytes;
 import cpp.NativeArray;
 
 @:unreflective
-class MySqlResult extends Finalizable {
+class MySqlClientResult extends Finalizable {
     public var fieldNames:Array<String> = [];
     public var fieldTypes:Array<Int> = [];
 
@@ -44,9 +44,9 @@ class MySqlResult extends Finalizable {
         fieldNames = [];
         fieldTypes = [];
 
-        var fieldCount = RawMySql.num_fields(_nativeResult);
+        var fieldCount = RawMySqlClient.num_fields(_nativeResult);
         for (i in 0...fieldCount) {
-            var field = RawMySql.fetch_field_direct(_nativeResult, i);
+            var field = RawMySqlClient.fetch_field_direct(_nativeResult, i);
             var fieldPointer:Pointer<MySqlField> = Pointer.fromRaw(field);
 
             fieldNames.push(fieldPointer.ptr.name);
@@ -65,7 +65,7 @@ class MySqlResult extends Finalizable {
 
     public function free() {
         if (_nativeResult != null) {
-            RawMySql.free_result(_nativeResult);
+            RawMySqlClient.free_result(_nativeResult);
             _nativeResult = null;
         }
     }
@@ -90,7 +90,7 @@ private class MySqlResultDataIterator {
         }
         _prepared = true;
         _current = 0;
-        _rowCount = RawMySql.num_rows(_nativeResult);
+        _rowCount = RawMySqlClient.num_rows(_nativeResult);
     }
 
     public function hasNext():Bool {
@@ -102,9 +102,9 @@ private class MySqlResultDataIterator {
 
     public function next():Array<Any> {
         prepare();
-        RawMySql.data_seek(_nativeResult, _current);
-        var row = RawMySql.fetch_row(_nativeResult);
-        var lens = RawMySql.fetch_lengths(_nativeResult);
+        RawMySqlClient.data_seek(_nativeResult, _current);
+        var row = RawMySqlClient.fetch_row(_nativeResult);
+        var lens = RawMySqlClient.fetch_lengths(_nativeResult);
         
         var dataArray:Array<Any> = [];
         for (i in 0..._fieldCount) {
@@ -148,15 +148,15 @@ private class MySqlResultDataIterator {
 
     public function next():Dynamic {
         prepare();
-        RawMySql.data_seek(_nativeResult, _current);
-        var row = RawMySql.fetch_row(_nativeResult);
-        var lens = RawMySql.fetch_lengths(_nativeResult);
+        RawMySqlClient.data_seek(_nativeResult, _current);
+        var row = RawMySqlClient.fetch_row(_nativeResult);
+        var lens = RawMySqlClient.fetch_lengths(_nativeResult);
         
         var dataObject:Dynamic = {};
         for (i in 0..._fieldCount) {
             var len = untyped __cpp__("{0}[{1}]", lens, i);
             var type = _fieldTypes[i];
-            var field:RawPointer<MySqlField> = RawMySql.fetch_field_direct(_nativeResult, i);
+            var field:RawPointer<MySqlField> = RawMySqlClient.fetch_field_direct(_nativeResult, i);
             // no idea why i had to use untyped here
             var name:String = untyped __cpp__("{0}->name", field);
             var rawData:ConstCharStar = untyped __cpp__("{0}[{1}]", row, i);
