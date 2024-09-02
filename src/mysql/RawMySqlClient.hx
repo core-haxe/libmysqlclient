@@ -7,7 +7,7 @@ import cpp.RawPointer;
 
 @:buildXml('
     <set name="lib_folder" value="${haxelib:libmysqlclient}/lib" />
-    <set name="include_folder" value="${haxelib:libmysqlclient}//lib" />
+    <set name="include_folder" value="${haxelib:libmysqlclient}/lib/include" />
     <echo value="Using libmysqlclient from: ${lib_folder}" />
     <section if="windows">
         <files id="haxe">
@@ -23,7 +23,7 @@ import cpp.RawPointer;
         </target>
     </section>
 ')
-@:include("include/mysql.h")
+@:include("mysql.h")
 @:unreflective
 extern class RawMySqlClient {
     @:native("::mysql_init")                        public static function init(mysql:RawPointer<MySqlHandle>):RawPointer<MySqlHandle>;
@@ -57,7 +57,7 @@ extern class RawMySqlClient {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@:include("include/mysql.h")
+@:include("mysql.h")
 @:native("MYSQL")
 @:unreflective
 extern class MySqlHandle {
@@ -66,7 +66,7 @@ extern class MySqlHandle {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@:include("include/mysql.h")
+@:include("mysql.h")
 @:native("MYSQL_RES")
 @:unreflective
 extern class MySqlRes {
@@ -75,7 +75,7 @@ extern class MySqlRes {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@:include("include/mysql.h")
+@:include("mysql.h")
 @:native("char**")
 @:unreflective
 extern class MySqlRow {
@@ -84,7 +84,7 @@ extern class MySqlRow {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@:include("include/mysql.h")
+@:include("mysql.h")
 @:native("MYSQL_FIELD")
 @:unreflective
 extern class MySqlField {
@@ -113,8 +113,8 @@ extern class MySqlField {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @:headerCode('
-#include "include/mysql.h"
-#include "include/mysql_com.h"
+#include <mysql.h>
+#include <mysql_com.h>
 ')
 class MySqlFieldType {
     public static var DECIMAL:Int = untyped __cpp__("FIELD_TYPE_DECIMAL");    
