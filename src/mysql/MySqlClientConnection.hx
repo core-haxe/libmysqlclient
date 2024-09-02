@@ -7,7 +7,7 @@ import cpp.Finalizable;
 
 @:unreflective
 class MySqlClientConnection extends Finalizable {
-    private var _refs:Int = 0;
+    private static var _refs:Int = 0;
     private var _handle:RawPointer<MySqlHandle> = null;
 
     public function new() {
@@ -21,16 +21,20 @@ class MySqlClientConnection extends Finalizable {
     public override function finalize() {
         close();
         _refs--;
+        RawMySqlClient.close(_handle);
+        _handle = null;
         if (_refs == 0) {
-            RawMySqlClient.close(_handle);
             RawMySqlClient.library_end();
-            _handle = null;
         }
         super.finalize();
     }
 
     public function lastInsertRowId():Int {
         return RawMySqlClient.insert_id(_handle);
+    }
+
+    public function affectedRows():Int {
+        return RawMySqlClient.affected_rows(_handle);
     }
 
     public function open(host:String, user:String, pass:String, db:String = null, port:Int = 0) {

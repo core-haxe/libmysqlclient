@@ -26,30 +26,33 @@ import cpp.RawPointer;
 @:include("include/mysql.h")
 @:unreflective
 extern class RawMySqlClient {
-    @:native("::mysql_init")                public static function init(mysql:RawPointer<MySqlHandle>):RawPointer<MySqlHandle>;
-    @:native("::mysql_library_end")         public static function library_end():Void;
+    @:native("::mysql_init")                        public static function init(mysql:RawPointer<MySqlHandle>):RawPointer<MySqlHandle>;
+    @:native("::mysql_library_end")                 public static function library_end():Void;
 
-    @:native("::mysql_error")               public static function error(mysql:RawPointer<MySqlHandle>):ConstCharStar;
-    @:native("::mysql_errno")               public static function errno(mysql:RawPointer<MySqlHandle>):Int;
-    @:native("::mysql_real_connect")        public static function real_connect(mysql:RawPointer<MySqlHandle>, host:ConstCharStar, user:ConstCharStar, passwd:ConstCharStar, db:ConstCharStar, port:Int, unix_socket:ConstCharStar, clientflag:Int):RawPointer<MySqlHandle>;
-    @:native("::mysql_close")               public static function close(mysql:RawPointer<MySqlHandle>):Void;
-    @:native("::mysql_affected_rows")       public static function affected_rows(mysql:RawPointer<MySqlHandle>):Int;
-    @:native("::mysql_insert_id")           public static function insert_id(mysql:RawPointer<MySqlHandle>):Int;
+    @:native("::mysql_error")                       public static function error(mysql:RawPointer<MySqlHandle>):ConstCharStar;
+    @:native("::mysql_errno")                       public static function errno(mysql:RawPointer<MySqlHandle>):Int;
+    @:native("::mysql_real_connect")                public static function real_connect(mysql:RawPointer<MySqlHandle>, host:ConstCharStar, user:ConstCharStar, passwd:ConstCharStar, db:ConstCharStar, port:Int, unix_socket:ConstCharStar, clientflag:Int):RawPointer<MySqlHandle>;
+    @:native("::mysql_close")                       public static function close(mysql:RawPointer<MySqlHandle>):Void;
+    @:native("::mysql_affected_rows")               public static function affected_rows(mysql:RawPointer<MySqlHandle>):Int;
+    @:native("::mysql_insert_id")                   public static function insert_id(mysql:RawPointer<MySqlHandle>):Int;
 
-    @:native("::mysql_query")               public static function query(mysql:RawPointer<MySqlHandle>, q:ConstCharStar):Int;
-    @:native("::mysql_store_result")        public static function store_result(mysql:RawPointer<MySqlHandle>):RawPointer<MySqlRes>;
-    @:native("::mysql_free_result")         public static function free_result(result:RawPointer<MySqlRes>):Void;
+    @:native("::mysql_real_escape_string")          public static function real_escape_string(mysql:RawPointer<MySqlHandle>, to:RawPointer<cpp.Char>, from:ConstCharStar, length:Int):Int;
+    @:native("::mysql_real_escape_string_quote")    public static function real_escape_string_quote(mysql:RawPointer<MySqlHandle>, to:RawPointer<cpp.Char>, from:ConstCharStar, length:Int, quote:cpp.Char):Int;
 
-    @:native("::mysql_fetch_row")           public static function fetch_row(result:RawPointer<MySqlRes>):MySqlRow;
-    @:native("::mysql_num_rows")            public static function num_rows(result:RawPointer<MySqlRes>):Int;
-    @:native("::mysql_num_fields")          public static function num_fields(result:RawPointer<MySqlRes>):Int;
-    @:native("::mysql_eof")                 public static function eof(result:RawPointer<MySqlRes>):Bool;
-    @:native("::mysql_data_seek")           public static function data_seek(result:RawPointer<MySqlRes>, offset:Int):Void;
+    @:native("::mysql_query")                       public static function query(mysql:RawPointer<MySqlHandle>, q:ConstCharStar):Int;
+    @:native("::mysql_store_result")                public static function store_result(mysql:RawPointer<MySqlHandle>):RawPointer<MySqlRes>;
+    @:native("::mysql_free_result")                 public static function free_result(result:RawPointer<MySqlRes>):Void;
 
-    @:native("::mysql_fetch_lengths")       public static function fetch_lengths(result:RawPointer<MySqlRes>):RawPointer<UnsignedLong>;
-    @:native("::mysql_fetch_field")         public static function fetch_field(result:RawPointer<MySqlRes>):RawPointer<MySqlField>;
-    @:native("::mysql_fetch_fields")        public static function fetch_fields(result:RawPointer<MySqlRes>):RawPointer<MySqlField>;
-    @:native("::mysql_fetch_field_direct")  public static function fetch_field_direct(result:RawPointer<MySqlRes>, fieldnr:Int):RawPointer<MySqlField>;
+    @:native("::mysql_fetch_row")                   public static function fetch_row(result:RawPointer<MySqlRes>):MySqlRow;
+    @:native("::mysql_num_rows")                    public static function num_rows(result:RawPointer<MySqlRes>):Int;
+    @:native("::mysql_num_fields")                  public static function num_fields(result:RawPointer<MySqlRes>):Int;
+    @:native("::mysql_eof")                         public static function eof(result:RawPointer<MySqlRes>):Bool;
+    @:native("::mysql_data_seek")                   public static function data_seek(result:RawPointer<MySqlRes>, offset:Int):Void;
+
+    @:native("::mysql_fetch_lengths")               public static function fetch_lengths(result:RawPointer<MySqlRes>):RawPointer<UnsignedLong>;
+    @:native("::mysql_fetch_field")                 public static function fetch_field(result:RawPointer<MySqlRes>):RawPointer<MySqlField>;
+    @:native("::mysql_fetch_fields")                public static function fetch_fields(result:RawPointer<MySqlRes>):RawPointer<MySqlField>;
+    @:native("::mysql_fetch_field_direct")          public static function fetch_field_direct(result:RawPointer<MySqlRes>, fieldnr:Int):RawPointer<MySqlField>;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

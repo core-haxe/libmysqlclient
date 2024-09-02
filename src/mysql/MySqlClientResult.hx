@@ -16,6 +16,8 @@ class MySqlClientResult extends Finalizable {
     public var fieldNames:Array<String> = [];
     public var fieldTypes:Array<Int> = [];
 
+    private var _rowCount:Int = 0;
+
     public function new() {
         super();
     }
@@ -37,12 +39,15 @@ class MySqlClientResult extends Finalizable {
     }
 
     private function populateCache() {
+        _rowCount = 0;
+        fieldNames = [];
+        fieldTypes = [];
+
         if (_nativeResult == null) {
             return;
         }
 
-        fieldNames = [];
-        fieldTypes = [];
+        _rowCount = RawMySqlClient.num_rows(_nativeResult);
 
         var fieldCount = RawMySqlClient.num_fields(_nativeResult);
         for (i in 0...fieldCount) {
@@ -52,6 +57,11 @@ class MySqlClientResult extends Finalizable {
             fieldNames.push(fieldPointer.ptr.name);
             fieldTypes.push(fieldPointer.ptr.type);
         }
+    }
+
+    public var length(get, null):Int;
+    private function get_length():Int {
+        return _rowCount;
     }
 
     @:noCompletion
@@ -90,6 +100,9 @@ private class MySqlResultDataIterator {
         }
         _prepared = true;
         _current = 0;
+        if (_nativeResult == null) {
+            return;
+        }
         _rowCount = RawMySqlClient.num_rows(_nativeResult);
     }
 
@@ -164,15 +177,27 @@ private class MySqlResultDataIterator {
             var value:Any = null;
             if (type == MySqlFieldType.VAR_STRING) {
                 value = new String(rawData);
+            } else if (type == MySqlFieldType.STRING) {
+                value = new String(rawData);
             } else if (type == MySqlFieldType.LONG) {
                 value = Std.parseInt(rawData);
+            } else if (type == MySqlFieldType.LONGLONG) {
+                value = Std.parseInt(rawData);
+            } else if (type == MySqlFieldType.DATETIME) {
+                value = new String(rawData); // TODO: proper date time
+            } else if (type == MySqlFieldType.TIMESTAMP) {
+                value = new String(rawData); // TODO: proper date time
             } else if (type == MySqlFieldType.DOUBLE) {
                 value = Std.parseFloat(rawData);
             } else if (type == MySqlFieldType.BLOB) {
-                var bytesData:BytesData = NativeArray.create(len);
-                NativeArray.zero(bytesData);
-                untyped __cpp__("memcpy({0}, {1}, {2})", NativeArray.address(bytesData, 0), rawData, len);
-                value = Bytes.ofData(bytesData);
+                if (len > 0) {
+                    var bytesData:BytesData = NativeArray.create(len);
+                    NativeArray.zero(bytesData);
+                    untyped __cpp__("memcpy({0}, {1}, {2})", NativeArray.address(bytesData, 0), rawData, len);
+                    value = Bytes.ofData(bytesData);
+                } else {
+                    value = null;
+                }
             } else {
                 var fields = Type.getClassFields(MySqlFieldType);
                 var foundField = null;
@@ -183,7 +208,7 @@ private class MySqlResultDataIterator {
 
                     }
                 }
-                trace("unknown mysql field type (" + type + "), detected as '" + foundField + "'");
+                trace("unknown mysql field type (" + name + ":" + type + "), detected as '" + foundField + "' [" + rawData + "]");
             }
 
             Reflect.setField(dataObject, name, value);
