@@ -1,3 +1,5 @@
 build/
 persons.db
 .vscode/
+.haxelib/
+target/

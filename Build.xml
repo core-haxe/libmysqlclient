@@ -13,4 +13,15 @@
             <lib name="advapi32.lib" />
         </target>
     </section>
+
+    <section if="linux">
+        <files id="haxe">
+            <compilerflag value="-I${include_folder}" />
+            <compilerflag value="-I${include_folder}/include" />
+        </files>
+
+        <target id="haxe" tool="linker" toolid="exe">
+            <lib name="-lmysqlclient"/>
+        </target>
+    </section>
 </xml>
