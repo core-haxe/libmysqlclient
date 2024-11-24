@@ -19,8 +19,7 @@ extern class RawMySqlClient {
     @:native("::mysql_affected_rows")               public static function affected_rows(mysql:RawPointer<MySqlHandle>):Int;
     @:native("::mysql_insert_id")                   public static function insert_id(mysql:RawPointer<MySqlHandle>):Int;
 
-    @:native("::mysql_real_escape_string")          public static function real_escape_string(mysql:RawPointer<MySqlHandle>, to:RawPointer<cpp.Char>, from:ConstCharStar, length:Int):Int;
-    @:native("::mysql_real_escape_string_quote")    public static function real_escape_string_quote(mysql:RawPointer<MySqlHandle>, to:RawPointer<cpp.Char>, from:ConstCharStar, length:Int, quote:cpp.Char):Int;
+    @:native("::mysql_real_escape_string")          public static function real_escape_string(mysql:RawPointer<MySqlHandle>, to:RawPointer<cpp.Char>, from:ConstCharStar, length:Int):UnsignedLong;
 
     @:native("::mysql_query")                       public static function query(mysql:RawPointer<MySqlHandle>, q:ConstCharStar):Int;
     @:native("::mysql_store_result")                public static function store_result(mysql:RawPointer<MySqlHandle>):RawPointer<MySqlRes>;
