@@ -1,9 +1,12 @@
 package mysql;
 
 import haxe.Exception;
+import cpp.Finalizable;
+import cpp.NativeArray;
+import cpp.NativeString;
+import cpp.Pointer;
 import cpp.RawPointer;
 import mysql.RawMySqlClient.MySqlHandle;
-import cpp.Finalizable;
 
 @:unreflective
 class MySqlClientConnection extends Finalizable {
@@ -78,5 +81,28 @@ class MySqlClientConnection extends Finalizable {
             return RawMySqlClient.errno(_handle);
         }
         return 0;
+    }
+
+    public function escapeString(value:String):String {
+        // throw exception when handle is null
+        if (_handle == null) {
+            throw new Exception("internal handle is null");
+        }
+        // get utf8 lenght and multiply it by 2 to have enough space
+        var len = NativeString.utf8Length(value) * 2 + 1;
+        // generate native array with length elements
+        var na = NativeArray.create(len);
+        // create pointer to native array
+        var p = Pointer.arrayElem(na, 0);
+        // call real escape string
+        var result = RawMySqlClient.real_escape_string(_handle, p.raw, value, value.length);
+        // get untyped error return variable
+        untyped __cpp__("unsigned long errorReturn = (unsigned long)-1");
+        // handle error
+        if (untyped __cpp__("{0} == {1}", result, errorReturn)) {
+            throw new Exception("mysql_real_escape_string failed!");
+        }
+        // return escaped string
+        return new String(untyped __cpp__("{0}", p.constRaw));
     }
 }

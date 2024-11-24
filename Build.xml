@@ -1,8 +1,10 @@
 <xml>
     <set name="lib_folder" value="${haxelib:libmysqlclient}/lib" />
     <set name="include_folder" value="${haxelib:libmysqlclient}/lib" />
-    <echo value="Using libmysqlclient from: ${lib_folder}" />
+
     <section if="windows">
+        <echo value="Using libmysqlclient from: ${lib_folder}" />
+
         <files id="haxe">
             <compilerflag value="-I${include_folder}" />
             <compilerflag value="-I${include_folder}/include" />
@@ -15,6 +17,8 @@
     </section>
 
     <section if="linux">
+        <echo value="Using libmysqlclient from system" />
+
         <files id="haxe">
             <compilerflag value="-I${include_folder}" />
             <compilerflag value="-I${include_folder}/include" />
