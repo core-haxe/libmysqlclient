@@ -31,6 +31,7 @@ class DBCreator {
                     firstName varchar(50),
                     iconId int,
                     contractDocument blob,
+                    amount DECIMAL(20,6),
                     PRIMARY KEY (personId)
                 );");
     
@@ -73,10 +74,10 @@ class DBCreator {
             connection.query("INSERT INTO Icon (iconId, path) VALUES (2, '/somepath/icon2.png');");
             connection.query("INSERT INTO Icon (iconId, path) VALUES (3, '/somepath/icon3.png');");
 
-            connection.query("INSERT INTO Person (personId, firstName, lastName, iconId, contractDocument) VALUES (1, 'Ian', 'Harrigan', 1, X'746869732069732069616e7320636f6e747261637420646f63756d656e74');");
-            connection.query("INSERT INTO Person (personId, firstName, lastName, iconId) VALUES (2, 'Bob', 'Barker', 3);");
-            connection.query("INSERT INTO Person (personId, firstName, lastName, iconId) VALUES (3, 'Tim', 'Mallot', 2);");
-            connection.query("INSERT INTO Person (personId, firstName, lastName, iconId) VALUES (4, 'Jim', 'Parker', 1);");
+            connection.query("INSERT INTO Person (personId, firstName, lastName, iconId, contractDocument, amount) VALUES (1, 'Ian', 'Harrigan', 1, X'746869732069732069616e7320636f6e747261637420646f63756d656e74', 123.456);");
+            connection.query("INSERT INTO Person (personId, firstName, lastName, iconId, amount) VALUES (2, 'Bob', 'Barker', 3, 111.222);");
+            connection.query("INSERT INTO Person (personId, firstName, lastName, iconId, amount) VALUES (3, 'Tim', 'Mallot', 2, 222.333);");
+            connection.query("INSERT INTO Person (personId, firstName, lastName, iconId, amount) VALUES (4, 'Jim', 'Parker', 1, 333.444);");
 
             connection.query("INSERT INTO Organization (organizationId, name, iconId) VALUES (1, 'ACME Inc', 2);");
             connection.query("INSERT INTO Organization (organizationId, name, iconId) VALUES (2, 'Haxe LLC', 1);");

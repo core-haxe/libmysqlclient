@@ -27,7 +27,7 @@ class TestInsert extends Test {
     function testBasicInsert(async:Async) {
         var connection = DBCreator.createConnection("persons");
 
-        connection.query("INSERT INTO Person (lastName, firstName, iconId) VALUES ('new last name', 'new first name', 1)");
+        connection.query("INSERT INTO Person (lastName, firstName, iconId, amount) VALUES ('new last name', 'new first name', 1, 666.777)");
 
         var lastInsertedId = connection.lastInsertRowId();
         Assert.equals(5, lastInsertedId);
@@ -40,6 +40,7 @@ class TestInsert extends Test {
         Assert.equals(rs[0].firstName, "new first name");
         Assert.equals(rs[0].lastName, "new last name");
         Assert.equals(rs[0].iconId, 1);
+        Assert.equals(rs[0].amount, 666.777);
         
         connection.close();
         async.done();

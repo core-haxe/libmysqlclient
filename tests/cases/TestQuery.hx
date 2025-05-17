@@ -34,11 +34,13 @@ class TestQuery extends Test {
         Assert.equals(rs[0].firstName, "Ian");
         Assert.equals(rs[0].lastName, "Harrigan");
         Assert.equals(rs[0].iconId, 1);
+        Assert.equals(rs[0].amount, 123.456);
 
         Assert.equals(rs[2].personId, 3);
         Assert.equals(rs[2].firstName, "Tim");
         Assert.equals(rs[2].lastName, "Mallot");
         Assert.equals(rs[2].iconId, 2);
+        Assert.equals(rs[2].amount, 222.333);
 
         connection.close();
         async.done();
@@ -54,6 +56,7 @@ class TestQuery extends Test {
         Assert.equals(rs[0].firstName, "Ian");
         Assert.equals(rs[0].lastName, "Harrigan");
         Assert.equals(rs[0].iconId, 1);
+        Assert.equals(rs[0].amount, 123.456);
         
         connection.close();
         async.done();
@@ -69,11 +72,13 @@ class TestQuery extends Test {
         Assert.equals(rs[0].firstName, "Ian");
         Assert.equals(rs[0].lastName, "Harrigan");
         Assert.equals(rs[0].iconId, 1);
+        Assert.equals(rs[0].amount, 123.456);
 
         Assert.equals(rs[1].personId, 4);
         Assert.equals(rs[1].firstName, "Jim");
         Assert.equals(rs[1].lastName, "Parker");
         Assert.equals(rs[1].iconId, 1);
+        Assert.equals(rs[1].amount, 333.444);
         
         connection.close();
         async.done();
@@ -89,6 +94,7 @@ class TestQuery extends Test {
         Assert.equals(rs[0].firstName, "Ian");
         Assert.equals(rs[0].lastName, "Harrigan");
         Assert.equals(rs[0].iconId, 1);
+        Assert.equals(rs[0].amount, 123.456);
         
         connection.close();
         async.done();

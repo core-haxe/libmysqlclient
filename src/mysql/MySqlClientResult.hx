@@ -132,6 +132,8 @@ private class MySqlResultDataIterator {
                 value = Std.parseInt(rawData);
             } else if (type == MySqlFieldType.DOUBLE) {
                 value = Std.parseFloat(rawData);
+            } else if (type == MySqlFieldType.NEWDECIMAL) {
+                value = Std.parseFloat(rawData);
             } else if (type == MySqlFieldType.BLOB) {
                 var bytesData:BytesData = NativeArray.create(len);
                 NativeArray.zero(bytesData);
@@ -188,6 +190,8 @@ private class MySqlResultDataIterator {
             } else if (type == MySqlFieldType.TIMESTAMP) {
                 value = new String(rawData); // TODO: proper date time
             } else if (type == MySqlFieldType.DOUBLE) {
+                value = Std.parseFloat(rawData);
+            } else if (type == MySqlFieldType.NEWDECIMAL) {
                 value = Std.parseFloat(rawData);
             } else if (type == MySqlFieldType.BLOB) {
                 if (len > 0) {
