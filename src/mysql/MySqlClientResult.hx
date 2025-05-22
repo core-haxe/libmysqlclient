@@ -5,6 +5,7 @@ import cpp.ConstCharStar;
 import mysql.RawMySqlClient.MySqlRes;
 import mysql.RawMySqlClient.MySqlField;
 import mysql.RawMySqlClient.MySqlFieldType;
+import mysql.RawMySqlClient.MySqlFieldType2;
 import cpp.Finalizable;
 import cpp.Pointer;
 import haxe.io.BytesData;
@@ -128,28 +129,33 @@ private class MySqlResultDataIterator {
             var value:Any = null;
             if (type == MySqlFieldType.VAR_STRING) {
                 value = new String(rawData);
+            } else if (type == MySqlFieldType.STRING) {
+                value = new String(rawData);
+            } else if (type == MySqlFieldType.JSON) {
+                value = haxe.Json.parse(new String(rawData));
             } else if (type == MySqlFieldType.LONG) {
                 value = Std.parseInt(rawData);
+            } else if (type == MySqlFieldType.LONGLONG) {
+                value = Std.parseInt(rawData);
+            } else if (type == MySqlFieldType.DATETIME) {
+                value = new String(rawData); // TODO: proper date time
+            } else if (type == MySqlFieldType.TIMESTAMP) {
+                value = new String(rawData); // TODO: proper date time
             } else if (type == MySqlFieldType.DOUBLE) {
                 value = Std.parseFloat(rawData);
             } else if (type == MySqlFieldType.NEWDECIMAL) {
                 value = Std.parseFloat(rawData);
             } else if (type == MySqlFieldType.BLOB) {
-                var bytesData:BytesData = NativeArray.create(len);
-                NativeArray.zero(bytesData);
-                untyped __cpp__("memcpy({0}, {1}, {2})", NativeArray.address(bytesData, 0), rawData, len);
-                value = Bytes.ofData(bytesData);
-            } else {
-                var fields = Type.getClassFields(MySqlFieldType);
-                var foundField = null;
-                for (f in fields) { 
-                    if (Reflect.field(MySqlFieldType, f) == type) {
-                        foundField = f;
-                        break;
-
-                    }
+                if (len > 0) {
+                    var bytesData:BytesData = NativeArray.create(len);
+                    NativeArray.zero(bytesData);
+                    untyped __cpp__("memcpy({0}, {1}, {2})", NativeArray.address(bytesData, 0), rawData, len);
+                    value = Bytes.ofData(bytesData);
+                } else {
+                    value = null;
                 }
-                trace("unknown mysql field type (" + type + "), detected as '" + foundField + "'");
+            } else {
+                trace("unknown mysql field type (" + name + ":" + type + ") [" + rawData + "]");
             }
 
             dataArray.push(value);
@@ -181,6 +187,8 @@ private class MySqlResultDataIterator {
                 value = new String(rawData);
             } else if (type == MySqlFieldType.STRING) {
                 value = new String(rawData);
+            } else if (type == MySqlFieldType.JSON) {
+                value = haxe.Json.parse(new String(rawData));
             } else if (type == MySqlFieldType.LONG) {
                 value = Std.parseInt(rawData);
             } else if (type == MySqlFieldType.LONGLONG) {
@@ -203,16 +211,7 @@ private class MySqlResultDataIterator {
                     value = null;
                 }
             } else {
-                var fields = Type.getClassFields(MySqlFieldType);
-                var foundField = null;
-                for (f in fields) { 
-                    if (Reflect.field(MySqlFieldType, f) == type) {
-                        foundField = f;
-                        break;
-
-                    }
-                }
-                trace("unknown mysql field type (" + name + ":" + type + "), detected as '" + foundField + "' [" + rawData + "]");
+                trace("unknown mysql field type (" + name + ":" + type + ") [" + rawData + "]");
             }
 
             Reflect.setField(dataObject, name, value);

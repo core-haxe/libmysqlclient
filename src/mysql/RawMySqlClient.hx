@@ -92,13 +92,64 @@ extern class MySqlField {
     public var type:Int;
 }
 
+
+@:headerCode('
+#include "mysql.h"
+#include "mysql_com.h"
+')
+extern enum abstract MySqlFieldType(MySqlFieldTypeImpl) {
+    @:native("MYSQL_TYPE_DECIMAL")      var DECIMAL:Int;
+    @:native("MYSQL_TYPE_TINY")         var TINY:Int;
+    @:native("MYSQL_TYPE_SHORT")        var SHORT:Int;
+    @:native("MYSQL_TYPE_LONG")         var LONG:Int;
+    @:native("MYSQL_TYPE_FLOAT")        var FLOAT:Int;
+    @:native("MYSQL_TYPE_DOUBLE")       var DOUBLE:Int;
+    @:native("MYSQL_TYPE_NULL")         var NULL:Int;
+    @:native("MYSQL_TYPE_TIMESTAMP")    var TIMESTAMP:Int;
+    @:native("MYSQL_TYPE_LONGLONG")     var LONGLONG:Int;
+    @:native("MYSQL_TYPE_INT24")        var INT24:Int;
+    @:native("MYSQL_TYPE_DATE")         var DATE:Int;
+    @:native("MYSQL_TYPE_TIME")         var TIME:Int;
+    @:native("MYSQL_TYPE_DATETIME")     var DATETIME:Int;
+    @:native("MYSQL_TYPE_YEAR")         var YEAR:Int;
+    @:native("MYSQL_TYPE_NEWDATE")      var NEWDATE:Int;
+    @:native("MYSQL_TYPE_VARCHAR")      var VARCHAR:Int;
+    @:native("MYSQL_TYPE_BIT")          var BIT:Int;
+    @:native("MYSQL_TYPE_TIMESTAMP2")   var TIMESTAMP2:Int;
+    @:native("MYSQL_TYPE_DATETIME2")    var DATETIME2:Int;
+    @:native("MYSQL_TYPE_TIME2")        var TIME2:Int;
+    @:native("MYSQL_TYPE_TYPED_ARRAY")  var TYPED_ARRAY:Int;
+    @:native("MYSQL_TYPE_INVALID")      var INVALID:Int;
+    @:native("MYSQL_TYPE_BOOL")         var BOOL:Int;
+    @:native("MYSQL_TYPE_JSON")         var JSON:Int;
+    @:native("MYSQL_TYPE_NEWDECIMAL")   var NEWDECIMAL:Int;
+    @:native("MYSQL_TYPE_ENUM")         var ENUM:Int;
+    @:native("MYSQL_TYPE_SET")          var SET:Int;
+    @:native("MYSQL_TYPE_TINY_BLOB")    var TINY_BLOB:Int;
+    @:native("MYSQL_TYPE_MEDIUM_BLOB")  var MEDIUM_BLOB:Int;
+    @:native("MYSQL_TYPE_LONG_BLOB")    var LONG_BLOB:Int;
+    @:native("MYSQL_TYPE_BLOB")         var BLOB:Int;
+    @:native("MYSQL_TYPE_VAR_STRING")   var VAR_STRING:Int;
+    @:native("MYSQL_TYPE_STRING")       var STRING:Int;
+    @:native("MYSQL_TYPE_GEOMETRY")     var GEOMETRY:Int;
+}
+
+@:headerCode('
+#include "mysql.h"
+#include "mysql_com.h"
+')
+@:native("cpp::Struct<enum_field_types, cpp::EnumHandler>")
+extern class MySqlFieldTypeImpl {
+
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @:headerCode('
 #include "mysql.h"
 #include "mysql_com.h"
 ')
-class MySqlFieldType {
+class MySqlFieldType2 {
     public static var DECIMAL:Int = untyped __cpp__("FIELD_TYPE_DECIMAL");    
     public static var NEWDECIMAL:Int = untyped __cpp__("FIELD_TYPE_NEWDECIMAL");    
     public static var TINY:Int = untyped __cpp__("FIELD_TYPE_TINY");    
