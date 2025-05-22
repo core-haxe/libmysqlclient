@@ -145,42 +145,6 @@ extern class MySqlFieldTypeImpl {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@:headerCode('
-#include "mysql.h"
-#include "mysql_com.h"
-')
-class MySqlFieldType2 {
-    public static var DECIMAL:Int = untyped __cpp__("FIELD_TYPE_DECIMAL");    
-    public static var NEWDECIMAL:Int = untyped __cpp__("FIELD_TYPE_NEWDECIMAL");    
-    public static var TINY:Int = untyped __cpp__("FIELD_TYPE_TINY");    
-    public static var SHORT:Int = untyped __cpp__("FIELD_TYPE_SHORT");    
-    public static var LONG:Int = untyped __cpp__("FIELD_TYPE_LONG");    
-    public static var FLOAT:Int = untyped __cpp__("FIELD_TYPE_FLOAT");    
-    public static var DOUBLE:Int = untyped __cpp__("FIELD_TYPE_DOUBLE");    
-    public static var NULL:Int = untyped __cpp__("FIELD_TYPE_NULL");    
-    public static var TIMESTAMP:Int = untyped __cpp__("FIELD_TYPE_TIMESTAMP");    
-    public static var LONGLONG:Int = untyped __cpp__("FIELD_TYPE_LONGLONG");    
-    public static var INT24:Int = untyped __cpp__("FIELD_TYPE_INT24");    
-    public static var DATE:Int = untyped __cpp__("FIELD_TYPE_DATE");    
-    public static var TIME:Int = untyped __cpp__("FIELD_TYPE_TIME");    
-    public static var DATETIME:Int = untyped __cpp__("FIELD_TYPE_DATETIME");    
-    public static var YEAR:Int = untyped __cpp__("FIELD_TYPE_YEAR");    
-    public static var NEWDATE:Int = untyped __cpp__("FIELD_TYPE_NEWDATE");    
-    public static var ENUM:Int = untyped __cpp__("FIELD_TYPE_ENUM");    
-    public static var SET:Int = untyped __cpp__("FIELD_TYPE_SET");    
-    public static var TINY_BLOB:Int = untyped __cpp__("FIELD_TYPE_TINY_BLOB");    
-    public static var MEDIUM_BLOB:Int = untyped __cpp__("FIELD_TYPE_MEDIUM_BLOB");    
-    public static var LONG_BLOB:Int = untyped __cpp__("FIELD_TYPE_LONG_BLOB");    
-    public static var BLOB:Int = untyped __cpp__("FIELD_TYPE_BLOB");    
-    public static var VAR_STRING:Int = untyped __cpp__("FIELD_TYPE_VAR_STRING");    
-    public static var STRING:Int = untyped __cpp__("FIELD_TYPE_STRING");    
-    public static var CHAR:Int = untyped __cpp__("FIELD_TYPE_CHAR");    
-    public static var INTERVAL:Int = untyped __cpp__("FIELD_TYPE_INTERVAL");    
-    public static var GEOMETRY:Int = untyped __cpp__("FIELD_TYPE_GEOMETRY");    
-    public static var BIT:Int = untyped __cpp__("FIELD_TYPE_BIT");    
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 @:native("unsigned long")
 extern class UnsignedLong {
 

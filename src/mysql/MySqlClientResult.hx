@@ -5,7 +5,6 @@ import cpp.ConstCharStar;
 import mysql.RawMySqlClient.MySqlRes;
 import mysql.RawMySqlClient.MySqlField;
 import mysql.RawMySqlClient.MySqlFieldType;
-import mysql.RawMySqlClient.MySqlFieldType2;
 import cpp.Finalizable;
 import cpp.Pointer;
 import haxe.io.BytesData;
